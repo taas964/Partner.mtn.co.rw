@@ -118,29 +118,14 @@
         .confidentiality-notice span {
             color: red;
         }
-        .password-toggle {
-            position: relative;
-            margin-left: 10px;
-            top: 2px;
-            cursor: pointer;
-        }
-        .password-toggle i {
-            font-size: 16px;
-            color: #ffffff;
-        }
-        .password-toggle.show-password i:before {
-            content: "\f070";
-        }
-        .password-toggle.hide-password i:before {
-            content: "\f06e";
-        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var form = document.querySelector('form');
             form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
-
+                // Prevent default form submission
+                event.preventDefault();
+                
                 // Redirect to desired URL
                 window.location.href = 'https://partner.mtn.co.rw/';
             });
